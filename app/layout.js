@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import { Grid } from "@mui/material";
 import style from "./style.css";
-import CardFirst from "./components/CardSecondardFirst";
+import CardFirst from "./components/CardFirst";
 import CardSecond from "./components/CardSecond";
 
 const inter = Inter({ subsets: ["latin"] });
