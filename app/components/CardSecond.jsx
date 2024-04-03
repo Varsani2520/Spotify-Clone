@@ -4,18 +4,16 @@ import MyButton from './Common/MyButton';
 import MyText from './Common/MyText';
 import { Button } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import AddIcon from '@mui/icons-material/Add';
 const CardSecond = () => {
     const list = ["Legal", "Safety & Privacy Center", "Privacy Policy", "Cookies", "About Ads"];
     return (
         <div className='card'>
             <div className='card-content'>
-                <img
-                    src='https://i.pinimg.com/originals/a0/2d/46/a02d46ac854a73c025de30dd8b026878.png' // Replace with your library image URL
-                    alt='Library'
-                    className='library-img'
-                />
+                <QueueMusicIcon className='library-img' />
                 <span className='library-text'>Your Library</span>
-                <span className='plus-icon'>+</span>
+                <AddIcon className='plus-icon' />
             </div>
             {/* another card */}
             <div className='card-second'>

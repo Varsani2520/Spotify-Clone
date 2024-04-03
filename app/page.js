@@ -7,55 +7,25 @@ import MyText from "./components/Common/MyText";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import { getAccessToken } from "./service/getTokenService";
+import { getPlaylist } from "./service/getPlaylist";
+
 export default function Home() {
   const [playlist, setPlaylist] = useState(null);
-  const clientId = "22777105ec8949f59b900e7dc9f6073c";
-  const clientSecret = "372948613cb241cdbacc3ecf6a72803c";
+  const [loading, setLoading] = useState(true);
 
+  async function fetchPlaylist() {
+    try {
+     getAccessToken().then(async (response) => {
+        const playlistData = await getPlaylist(response);
+        setPlaylist(playlistData);
+        console.log("playlist", playlistData);
+      });
+    } catch (error) {
+      console.error("Error fetching playlist:", error);
+    }
+  }
   useEffect(() => {
-    async function fetchPlaylist() {
-      try {
-        const accessToken = await getToken(clientId, clientSecret);
-        const response = await fetch(
-          "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch playlist");
-        }
-        const data = await response.json();
-        console.log(data);
-        setPlaylist(data);
-      } catch (error) {
-        console.error("Error fetching playlist:", error);
-      }
-    }
-
-    async function getToken(clientId, clientSecret) {
-      try {
-        const response = await fetch("https://accounts.spotify.com/api/token", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${btoa(clientId + ":" + clientSecret)}`,
-          },
-          body: "grant_type=client_credentials",
-        });
-        if (!response.ok) {
-          throw new Error("Failed to obtain access token");
-        }
-        const data = await response.json();
-        return data.access_token;
-      } catch (error) {
-        console.error("Error fetching access token:", error);
-        throw error;
-      }
-    }
-
     fetchPlaylist();
   }, []);
 
@@ -66,18 +36,18 @@ export default function Home() {
         <Grid item>
           <MyText text1={"Spotify Playlists"} />
           <div className="hide-card">
-            {playlist && (
-              <>
-                <img
-                  src={playlist.images[0].url}
-                  alt="spotify-playlist"
-                  style={{ borderRadius: "10px" }}
-                  height="300px"
-                  width="300px"
-                />
-                <MyText text2={playlist.name} />
-              </>
-            )}
+            {/* {playlist.images.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image.url}
+                      alt={`spotify-playlist-${index}`}
+                      style={{ borderRadius: "10px", marginBottom: "10px" }}
+                      height="300px"
+                      width="300px"
+                    />
+                    <MyText text2={playlist.name} />
+                  </div>
+                ))} */}
           </div>
         </Grid>
         {/* Add other grid items as needed */}

@@ -31,6 +31,7 @@ body {
   
   .tabs ul li:hover span {
     text-decoration: underline;
+    cursor: pointer;
   }
   
   .tab.home:hover span,
@@ -42,7 +43,8 @@ body {
     color:gray
   }
  .tab-search:hover{
-    color:white
+    color:white;
+    cursor: pointer;
  }
   .spotify-logo {
     border-radius: 20px;
@@ -59,15 +61,19 @@ body {
   .card-content {
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
+    margin-top: 5px;
   }
   
   .library-img {
-    width: 50px; /* Adjust size as needed */
-    height: 50px; /* Adjust size as needed */
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
     filter: grayscale(100%);
     background-color: transparent; /* Convert to gray */
   }
-  
+  .library-img,.library-text:hover{
+    cursor: pointer;
+  }
   .library-text {
     color: gray;
     margin-left: 10px; /* Add space between image and text */
@@ -76,8 +82,11 @@ body {
   
   .plus-icon {
     color: gray;
-    font-size: 24px;
+    font-size: 26px;
     padding-right: 30px; /* Adjust size as needed */
+  }
+  .plus-icon:hover{
+    cursor: pointer;
   }
 
   /* 2nd card gray color
@@ -165,4 +174,5 @@ body {
     background-color: #242424;
     border-radius: 10px;
     padding: 10px;
+    cursor: pointer;
   }

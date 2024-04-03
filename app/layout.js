@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Grid container spacing={2}>
-          <Grid xs={12} md={3}>
+          <Grid xs={12} md={3} >
             <Grid xs={12} md={12}>
               <CardFirst />
             </Grid>
