@@ -1,0 +1,168 @@
+/* Existing styles */
+body {
+    background-color: black;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+  }
+    
+  .tabs ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .tabs ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .tabs ul li img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  /* Styling for Home and Search tabs */
+  .tabs ul li span {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .tabs ul li:hover span {
+    text-decoration: underline;
+  }
+  
+  .tab.home:hover span,
+  .tab.search:hover span {
+    color: white;
+    cursor: pointer; /* Change color on hover for Home and Search tabs */
+  }
+  .tab-search{
+    color:gray
+  }
+ .tab-search:hover{
+    color:white
+ }
+  .spotify-logo {
+    border-radius: 20px;
+  }
+  
+  .card {
+    background-color: #121212;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 20px;
+  }
+  .card-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .library-img {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    filter: grayscale(100%);
+    background-color: transparent; /* Convert to gray */
+  }
+  
+  .library-text {
+    color: gray;
+    margin-left: 10px; /* Add space between image and text */
+    flex-grow: 1; /* Allow the text to grow and take up available space */
+  }
+  
+  .plus-icon {
+    color: gray;
+    font-size: 24px;
+    padding-right: 30px; /* Adjust size as needed */
+  }
+
+  /* 2nd card gray color
+   */
+
+   .card-second{
+    background-color:#242424 ;
+    color:white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
+   }
+
+
+   button{
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: bold;
+   }
+
+   h4{
+    color:'white';
+   }
+   h5{
+    color:gray;
+   }
+
+.footer{
+  margin-top: 200px;
+  margin-bottom: 50px;
+  margin-left: 5px;
+}
+   .footer ul{
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+   }
+   .footer ul li {
+    color: #6c6c6c;
+    font-size: 12px; /* Set the font size smaller */
+    margin-right: 10px; /* Add some spacing between list items */
+  }
+
+  .language{
+    width: fit-content;
+    border:1px solid gray;
+    border-radius: 70px;
+    padding: 5px;
+    justify-content: center;
+    text-align: center;
+  }
+  .language:hover{
+    border:1px solid white;
+    cursor: pointer;
+  }
+
+  .flex-container {
+    display: flex;
+    margin-top: 200px;
+  }
+  
+  .icon-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    padding-right: 10px;
+  }
+  
+  
+  .flex-container ul {
+    margin-right: 150px; /* Adjust spacing between ul elements as needed */
+  }
+  
+  .flex-container ul li {
+    list-style: none;
+    margin-bottom: 10px; /* Adjust spacing between li elements as needed */
+  }
+  .hide-card:hover{
+    background-color: #242424;
+    border-radius: 10px;
+    padding: 10px;
+  }
