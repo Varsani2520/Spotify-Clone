@@ -8,7 +8,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { getAccessToken } from "./service/getTokenService";
 import { getPlaylist } from "./service/getPlaylist";
-
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 export default function Home() {
   const [playlist, setPlaylist] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,9 +22,8 @@ export default function Home() {
       let accessToken = response; // Assuming response is the access token itself
       localStorage.setItem("access_token", accessToken); // Store the new access token in localStorage
 
-  
       // Now you can use accessToken here
-  
+
       // Get playlist using access token
       const playlistData = await getPlaylist(accessToken);
       setPlaylist(playlistData.playlists.items);
@@ -34,17 +33,15 @@ export default function Home() {
       console.error("Error fetching playlist:", error);
     }
   }
-  
-function truncateDescription(description,maxLength){
-  const word=description.split('')
-  if(word.length>maxLength){
-    return word.slice(0,maxLength).join(' ') + '...';
 
+  function truncateDescription(description, maxLength) {
+    const word = description.split(" ");
+    if (word.length > maxLength) {
+      return word.slice(0, maxLength).join(" ") + "...";
+    } else {
+      return description;
+    }
   }
-  else{
-    return description;
-  }
-}
   useEffect(() => {
     fetchData();
   }, []);
@@ -97,7 +94,26 @@ function truncateDescription(description,maxLength){
                             src={item.images[0].url}
                             alt="green iguana"
                           />
-                          <MyText text1={item.name} text2={truncateDescription(item.description,6)} />
+                          <MyText
+                            text1={item.name}
+                            text2={truncateDescription(item.description, 5)}
+                          />
+                           <IconButton
+                            aria-label="play"
+                            className="play-icon"
+                            sx={{
+                              position: "absolute",
+                              top: "88%",
+                              left: "78%",
+                              transform: "translate(-50%, -50%)",
+                              backgroundColor: "green",
+                              display: "none",
+                              borderRadius: "50%",
+                              padding: "5px",
+                            }}
+                          >
+                            <PlayArrowRoundedIcon style={{ color: "white" }} fontSize="large" />
+                          </IconButton>
                         </div>
                       )}
                     </div>

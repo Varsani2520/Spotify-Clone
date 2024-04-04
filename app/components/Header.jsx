@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
-                <IconButton aria-label='left arrow' sx={{ marginRight: '10px', background: 'black', color: 'gray' }}>
+                <IconButton aria-label='left arrow' sx={{ marginRight: '10px', background: 'black', color: 'gray' ,marginLeft:'10px'}}>
                     <ChevronLeftIcon fontSize='large' />
                 </IconButton>
                 <IconButton aria-label='right arrow' sx={{

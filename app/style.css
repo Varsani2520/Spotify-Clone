@@ -152,7 +152,8 @@ body {
 
   .flex-container {
     display: flex;
-    margin-top: 200px;
+    margin-top: 50px;
+    
   }
   
   .icon-list {
@@ -178,14 +179,7 @@ body {
   margin-right: -20px;
   margin-left: 20px;
  }
-/* .hide-card{
-  display: flex;
-  width: 1600px;
-  overflow: hidden;
-}
-.playlist-content{
-  width: 200px;
-} */
+
 
 .hide-card {
   display: flex;
@@ -195,12 +189,34 @@ body {
 
 .playlist-items {
   display: flex;
-  margin-right: 15px;
-  width: 150px;
+  margin-right: 16px;
+  width: 155px;
+  position: relative;
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.playlist-items:hover .playlist-content {
+  background-color: #373333;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .playlist-content {
+  position: relative;
   width: 150px; /* Fixed width for each item */
+}
+.play-icon {
+  position: absolute;
+  top: 88%; /* Align vertically */
+  left: 78%; /* Align horizontally */
+  transform: translate(-50%, -50%); /* Center the icon */
+  display: none; /* Initially hide the icon */
+}
+
+.playlist-items:hover .play-icon {
+  display: block; /* Show the icon on hover */
 }
 .show-card {
   clear: both; /* Ensure it appears below the main container */
@@ -216,7 +232,11 @@ body {
 }
 
 
-
+li:hover{
+  text-decoration: underline;
+  color: gray;
+  cursor: pointer;
+}
  
   
  
