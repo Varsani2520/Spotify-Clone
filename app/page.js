@@ -1,15 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Grid, IconButton, Skeleton } from "@mui/material";
 import Header from "./components/Header";
 import MyText from "./components/Common/MyText";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -24,17 +15,16 @@ export default function Home() {
 
   async function fetchData() {
     try {
+      const response = await getAccessToken();
+
       // Get the access token from localStorage
-      let accessToken = localStorage.getItem("access_token");
-      console.log("Access Token:", accessToken); // Check if access token is set in localStorage
+      // let accessToken = localStorage.getItem("access_token");
+      let accessToken = response; // Assuming response is the access token itself
+      localStorage.setItem("access_token", accessToken); // Store the new access token in localStorage
 
-      if (!accessToken) {
-        // If access token is not available or expired, fetch a new one
-        const response = await getAccessToken();
-        accessToken = response.access_token;
-        localStorage.setItem("access_token", accessToken); // Store the new access token in localStorage
-      }
-
+  
+      // Now you can use accessToken here
+  
       // Get playlist using access token
       const playlistData = await getPlaylist(accessToken);
       setPlaylist(playlistData.playlists.items);
@@ -42,19 +32,19 @@ export default function Home() {
       setLoading(false); // Set loading to false when data is fetched
     } catch (error) {
       console.error("Error fetching playlist:", error);
-      // Handle 401 error (Unauthorized)
-      if (error.response && error.response.status === 401) {
-        // Clear the invalid access token from localStorage
-        localStorage.removeItem("access_token");
-        // Fetch a new access token
-        const response = await getAccessToken();
-        const newAccessToken = response.access_token;
-        localStorage.setItem("access_token", newAccessToken); // Store the new access token in localStorage
-        // Retry fetching the data with the new access token
-        fetchData();
-      }
     }
   }
+  
+function truncateDescription(description,maxLength){
+  const word=description.split('')
+  if(word.length>maxLength){
+    return word.slice(0,maxLength).join(' ') + '...';
+
+  }
+  else{
+    return description;
+  }
+}
   useEffect(() => {
     fetchData();
   }, []);
@@ -69,44 +59,52 @@ export default function Home() {
           >
             <MyText text1={"Spotify Playlists"} />
           </div>
-          {loading ? (
-            <>
-              <div className="flex-row">
-                <Skeleton
-                  variant="rectangular"
-                  width={210}
-                  height={118}
-                  sx={{ backgroundColor: "black" }}
-                />
-                <Skeleton
-                  variant="text"
-                  width={210}
-                  height={118}
-                  sx={{ backgroundColor: "black" }}
-                />
-              </div>
-            </>
-          ) : (
-            <div className="hide-card">
-              {playlist &&
-                playlist.map((item, index) => (
-                  <div className="playlist-items" key={index}>
-                    {/* Display playlist image */}
-                    {item.images.length > 0 && (
-                      <div className="playlist-content">
-                        <img
-                          height="170px"
-                          style={{ borderRadius: "10px" }}
-                          src={item.images[0].url}
-                          alt="green iguana"
-                        />
-                        <MyText text1={item.name} text2={item.description} />
-                      </div>
-                    )}
+          <div className="hide-card">
+            {loading ? (
+              <div style={{ display: "flex", overflow: "hidden" }}>
+                {/* Loop to display 8 skeleton elements */}
+                {[...Array(7)].map((_, index) => (
+                  <div
+                    key={index}
+                    style={{ display: "block", marginRight: "10px" }}
+                  >
+                    <Skeleton
+                      variant="rectangular"
+                      width={210}
+                      height={118}
+                      sx={{ backgroundColor: "black" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      width={210}
+                      height={18}
+                      sx={{ backgroundColor: "black" }}
+                    />
                   </div>
                 ))}
-            </div>
-          )}
+              </div>
+            ) : (
+              <>
+                {playlist &&
+                  playlist.map((item, index) => (
+                    <div className="playlist-items" key={index}>
+                      {/* Display playlist image */}
+                      {item.images.length > 0 && (
+                        <div className="playlist-content">
+                          <img
+                            height="170px"
+                            style={{ borderRadius: "10px" }}
+                            src={item.images[0].url}
+                            alt="green iguana"
+                          />
+                          <MyText text1={item.name} text2={truncateDescription(item.description,6)} />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+              </>
+            )}
+          </div>
         </Grid>
         <div className="show-card">
           {/* Overflowing items will be displayed here */}
