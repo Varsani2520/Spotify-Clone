@@ -7,6 +7,7 @@ import {
   CardMedia,
   Grid,
   IconButton,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import Header from "./components/Header";
@@ -18,44 +19,43 @@ import { getAccessToken } from "./service/getTokenService";
 import { getPlaylist } from "./service/getPlaylist";
 
 export default function Home() {
-  
   const [playlist, setPlaylist] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Get the access token from localStorage
-        const accessToken = localStorage.getItem("access_token");
-        console.log("Access Token:", accessToken); // Check if access token is set in localStorage
+  async function fetchData() {
+    try {
+      // Get the access token from localStorage
+      let accessToken = localStorage.getItem("access_token");
+      console.log("Access Token:", accessToken); // Check if access token is set in localStorage
 
-        // If access token exists, use it
-        if (accessToken) {
-          const playlistData = await getPlaylist(accessToken); // Get playlist using access token
-          setPlaylist(playlistData.playlists.items);
-          console.log(playlistData.playlists.items);
-        } else {
-          // If access token is not available or expired, fetch a new one
-          const response = await getAccessToken();
-          const newAccessToken = response.access_token;
-          const newPlaylistData = await getPlaylist(newAccessToken);
-          setPlaylist(newPlaylistData);
-        }
-      } catch (error) {
-        console.error("Error fetching playlist:", error);
-        // Handle 401 error (Unauthorized)
-        if (error.response && error.response.status === 401) {
-          // Clear the invalid access token from localStorage
-          localStorage.removeItem("access_token");
-          // Fetch a new access token
-          const response = await getAccessToken();
-          const newAccessToken = response.access_token;
-          const newPlaylistData = await getPlaylist(newAccessToken);
-          setPlaylist(newPlaylistData);
-        }
+      if (!accessToken) {
+        // If access token is not available or expired, fetch a new one
+        const response = await getAccessToken();
+        accessToken = response.access_token;
+        localStorage.setItem("access_token", accessToken); // Store the new access token in localStorage
+      }
+
+      // Get playlist using access token
+      const playlistData = await getPlaylist(accessToken);
+      setPlaylist(playlistData.playlists.items);
+      console.log(playlistData.playlists.items);
+      setLoading(false); // Set loading to false when data is fetched
+    } catch (error) {
+      console.error("Error fetching playlist:", error);
+      // Handle 401 error (Unauthorized)
+      if (error.response && error.response.status === 401) {
+        // Clear the invalid access token from localStorage
+        localStorage.removeItem("access_token");
+        // Fetch a new access token
+        const response = await getAccessToken();
+        const newAccessToken = response.access_token;
+        localStorage.setItem("access_token", newAccessToken); // Store the new access token in localStorage
+        // Retry fetching the data with the new access token
+        fetchData();
       }
     }
-
+  }
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -63,35 +63,55 @@ export default function Home() {
     <div className="playlist-card">
       <Header />
       <Grid container spacing={2}>
-        <div style={{marginLeft:'30px',marginTop:'10px',fontSize:'30px'}}>
-          <MyText text1={"Spotify Playlists"} />
-        </div>
-
-        <div className="hide-card">
-          {playlist &&
-            playlist.map((item, index) => (
-              <div className="playlist-items" key={index}>
-                {/* Display playlist image */}
-                {item.images.length > 0 && (
-                  <div className="playlist-content">
-                    <img
-                      height="170px"
-                      style={{ borderRadius: "10px" }}
-                      src={item.images[0].url}
-                      alt="green iguana"
-                    />
-                    <MyText text1={item.name} text2={item.description} />
-
-                  </div>
-                )}
+        <Grid item xs={12} md={12}>
+          <div
+            style={{ marginLeft: "20px", marginTop: "10px", fontSize: "30px" }}
+          >
+            <MyText text1={"Spotify Playlists"} />
+          </div>
+          {loading ? (
+            <>
+              <div className="flex-row">
+                <Skeleton
+                  variant="rectangular"
+                  width={210}
+                  height={118}
+                  sx={{ backgroundColor: "black" }}
+                />
+                <Skeleton
+                  variant="text"
+                  width={210}
+                  height={118}
+                  sx={{ backgroundColor: "black" }}
+                />
               </div>
-            ))}
-        </div>
+            </>
+          ) : (
+            <div className="hide-card">
+              {playlist &&
+                playlist.map((item, index) => (
+                  <div className="playlist-items" key={index}>
+                    {/* Display playlist image */}
+                    {item.images.length > 0 && (
+                      <div className="playlist-content">
+                        <img
+                          height="170px"
+                          style={{ borderRadius: "10px" }}
+                          src={item.images[0].url}
+                          alt="green iguana"
+                        />
+                        <MyText text1={item.name} text2={item.description} />
+                      </div>
+                    )}
+                  </div>
+                ))}
+            </div>
+          )}
+        </Grid>
         <div className="show-card">
           {/* Overflowing items will be displayed here */}
         </div>
 
-        <div className="show-card"></div>
         {/* Add other grid items as needed */}
       </Grid>
       <div className="flex-container">
