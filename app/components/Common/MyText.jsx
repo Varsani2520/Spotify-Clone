@@ -10,7 +10,7 @@ const MyText = ({text1,text2,className}) => {
 }
 
 export default MyText
-// if (!text1) {
+
 //   return null; // Return null if text1 is undefined
 // }
 
