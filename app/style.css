@@ -109,8 +109,11 @@ body {
     border-radius: 20px;
     padding: 10px;
     font-weight: bold;
-   }
+  }
+  button:hover{
+  cursor: pointer;
 
+}
    h4{
     color:'white';
    }
@@ -119,8 +122,8 @@ body {
    }
 
 .footer{
-  margin-top: 200px;
-  margin-bottom: 50px;
+  margin-top: 130px;
+  margin-bottom: 30px;
   margin-left: 5px;
 }
    .footer ul{
@@ -170,9 +173,50 @@ body {
     list-style: none;
     margin-bottom: 10px; /* Adjust spacing between li elements as needed */
   }
-  .hide-card:hover{
-    background-color: #242424;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-  }
+ .playlist-items{
+  display: flex;
+  margin-right: -20px;
+  margin-left: 20px;
+ }
+/* .hide-card{
+  display: flex;
+  width: 1600px;
+  overflow: hidden;
+}
+.playlist-content{
+  width: 200px;
+} */
+
+.hide-card {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top:20px /* Allow items to wrap to new rows */
+}
+
+.playlist-items {
+  display: flex;
+  margin-right: 25px;
+  width: 150px;
+}
+
+.playlist-content {
+  width: 150px; /* Fixed width for each item */
+}
+.show-card {
+  clear: both; /* Ensure it appears below the main container */
+}
+.playlist-card{
+
+  background-color: #121212;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+
+
+ 
+  
+ 

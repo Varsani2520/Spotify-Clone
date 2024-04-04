@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, IconButton } from '@mui/material'
 import React from 'react'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -6,8 +6,16 @@ const Header = () => {
     return (
         <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
-                <Button startIcon={<ChevronLeftIcon />}></Button>
-                <Button startIcon={<ChevronRightIcon />}></Button>
+                <IconButton aria-label='left arrow' sx={{ marginRight: '10px', background: 'black', color: 'gray' }}>
+                    <ChevronLeftIcon fontSize='large' />
+                </IconButton>
+                <IconButton aria-label='right arrow' sx={{
+                    backgroundColor: 'black',
+                    color: 'gray',
+                   
+                }}>
+                    <ChevronRightIcon fontSize='large' />
+                </IconButton>
             </Grid>
             <Grid item>
                 <Button variant="text" sx={{ color: "gray", marginRight: "5px" }}>
@@ -20,14 +28,14 @@ const Header = () => {
                         color: "black",
                         backgroundColor: "white",
                         marginRight: "10px",
-                        width: '100px',
-                        padding: "20px", fontWeight: 'bold'
+                       
+                        fontWeight: 'bold'
                     }}
                 >
                     Login
                 </Button>
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
 
