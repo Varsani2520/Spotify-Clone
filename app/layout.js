@@ -3,6 +3,8 @@ import { Grid } from "@mui/material";
 import style from "./style.css";
 import CardFirst from "./components/CardFirst";
 import CardSecond from "./components/CardSecond";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,17 +18,21 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Grid container spacing={2}>
-          <Grid xs={12} md={3} >
-            <Grid xs={12} md={12}>
+          <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={12}>
               <CardFirst />
             </Grid>
-            <Grid xs={12} md={12}>
+            <Grid item xs={12} md={12}>
               <CardSecond />
             </Grid>
           </Grid>
           {/* Right part */}
-          <Grid xs={12} md={9}>
-            {children}
+          <Grid item xs={12} md={9}>
+            <div className="playlist-card">
+              <Header />
+              {children}
+              <Footer />
+            </div>
           </Grid>
         </Grid>
       </body>

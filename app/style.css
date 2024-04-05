@@ -152,7 +152,7 @@ body {
 
   .flex-container {
     display: flex;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     
   }
   
@@ -218,11 +218,8 @@ body {
 .playlist-items:hover .play-icon {
   display: block; /* Show the icon on hover */
 }
-.show-card {
-  clear: both; /* Ensure it appears below the main container */
-}
-.playlist-card{
 
+.playlist-card{
   background-color: #121212;
   padding: 10px;
   color: white;
@@ -238,5 +235,30 @@ li:hover{
   cursor: pointer;
 }
  
-  
- 
+.playlist-detail{
+  background: linear-gradient(135deg, #3d1805, #000000);
+  min-height: 100px;
+  padding: 20px;
+}
+h1{
+  font-size: 6rem;
+  white-space: nowrap;
+  margin:0;
+}
+.css-1ygcj2i-MuiTableCell-root , .css-1ex1afd-MuiTableCell-root{
+  color:gray;
+}
+.css-1ex1afd-MuiTableCell-root{
+  padding:0px;
+  line-height: 10px;
+}
+.MuiTableCell-root {
+  border: none;
+}
+.css-15wwp11-MuiTableHead-root{
+  border-bottom: 1px solid gray;
+
+}
+.playlist-album-table{
+  background: linear-gradient(to top, black, #3d1805);
+}
