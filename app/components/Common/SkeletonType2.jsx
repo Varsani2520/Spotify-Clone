@@ -11,6 +11,7 @@ const SkeletonType2 = () => {
             <div className='block' style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <Skeleton variant='text' sx={{ height: '20px', width: '200px', marginBottom: '10px' }} />
                 <Skeleton variant='text' sx={{ height: '20px', width: '200px', marginBottom: '10px' }} />
+                <Skeleton variant='rounded' sx={{ height: '20px', width: '200px', marginBottom: '10px' }} />
                 <Skeleton variant='text' sx={{ height: '20px', width: '200px', marginBottom: '10px' }} />
             </div>
         </div>
