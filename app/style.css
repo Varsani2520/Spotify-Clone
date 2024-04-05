@@ -58,6 +58,7 @@ body {
     border-radius: 10px;
     margin: 20px;
   }
+ 
   .card-content {
     display: flex;
     align-items: center;
@@ -240,7 +241,8 @@ li:hover{
   background:linear-gradient(135deg,#242424,#373333);
   min-height: 100px;
   padding: 20px;
- padding-top: 80px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 h1{
   font-size: 6rem;
@@ -262,15 +264,16 @@ h1{
 
 }
 .playlist-album-table{
-  background: linear-gradient(to top, black, #3d1805);
+  /* background: linear-gradient(to top, black, #3d1805); */
+  /* background-color: black; */
 }
 .header {
-  position: fixed;
+  /* position: fixed;
   top: 45px;
   left: 580px;
   right: 41px;
   z-index: 1000;
-  background-color: #242424;
+  background-color: #242424; */
   /* background: linear-gradient(135deg, #3d1805, #000000); */
-  box-shadow: 0 2px 4px rgba(225, 194, 194, 0.1);
+  /* box-shadow: 0 2px 4px rgba(225, 194, 194, 0.1); */
 }
