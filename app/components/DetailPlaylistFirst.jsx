@@ -4,10 +4,13 @@ import React, { useEffect, useState } from 'react'
 import { getAccessToken } from '../service/getTokenService';
 import { getPlaylistDetails } from '../service/getPlaylistDetails';
 import { useParams } from 'next/navigation';
+import SkeletonType2 from './Common/SkeletonType2';
 
 const DetailPlaylistFirst = () => {
     const { playlist_id } = useParams();
     const [detail, setDetail] = useState(null);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,6 +19,7 @@ const DetailPlaylistFirst = () => {
                 localStorage.setItem('access_token', accessToken);
                 const detailData = await getPlaylistDetails(playlist_id, accessToken);
                 setDetail(detailData);
+                setLoading(false)
 
             } catch (error) {
                 console.error("Error fetching playlist details:", error);
@@ -28,11 +32,17 @@ const DetailPlaylistFirst = () => {
     }, [playlist_id]);
     return (
         <div className='playlist-detail'>
+
             <Grid container spacing={1}>
                 <Grid item xs={12} md={3}>
-                    {detail && detail.images.length > 0 && (
-                        <img src={detail.images[0].url} alt='Playlist Image' style={{ height: '250px', width: '250px', borderRadius: '10px' }} />
-                    )}
+                    {
+                        loading ? (<SkeletonType2 />) : (
+
+                            detail && detail.images.length > 0 && (
+                                <img src={detail.images[0].url} alt='Playlist Image' style={{ height: '250px', width: '250px', borderRadius: '10px' }} />
+                            )
+                        )
+                    }
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ marginLeft: '-100px' }}>
                     <p style={{ color: 'inherit' }}>{detail?.type}</p>
