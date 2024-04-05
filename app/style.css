@@ -264,16 +264,8 @@ h1{
 
 }
 .playlist-album-table{
+  color:gray;
   /* background: linear-gradient(to top, black, #3d1805); */
   /* background-color: black; */
 }
-.header {
-  /* position: fixed;
-  top: 45px;
-  left: 580px;
-  right: 41px;
-  z-index: 1000;
-  background-color: #242424; */
-  /* background: linear-gradient(135deg, #3d1805, #000000); */
-  /* box-shadow: 0 2px 4px rgba(225, 194, 194, 0.1); */
-}
+
