@@ -227,6 +227,8 @@ body {
   font-weight: bold;
   border-radius: 10px;
   margin: 20px;
+  height:868px;
+  overflow-y: auto;
  
 }
 .page-container {
@@ -255,23 +257,35 @@ h1{
   white-space: nowrap;
   margin:0;
 }
-.css-1ygcj2i-MuiTableCell-root , .css-1ex1afd-MuiTableCell-root{
+/* .css-1ygcj2i-MuiTableCell-root , .css-1ex1afd-MuiTableCell-root{
   color:gray;
-}
-.css-1ex1afd-MuiTableCell-root{
+} */
+/* .css-1ex1afd-MuiTableCell-root{
   padding:0px;
   line-height: 10px;
-}
-.MuiTableCell-root {
+} */
+/* .MuiTableCell-root {
   border: none;
 }
 .css-15wwp11-MuiTableHead-root{
   border-bottom: 1px solid gray;
 
-}
+} */
 .playlist-album-table{
   color:gray;
   /* background: linear-gradient(to top, black, #3d1805); */
   /* background-color: black; */
 }
+.fixed-header{
+  color: gray;
+}
 
+td{
+  border-bottom: none !important;
+ padding: 0px !important;
+}
+
+tr:hover{
+  background-color: #373333;
+  cursor: pointer;
+}

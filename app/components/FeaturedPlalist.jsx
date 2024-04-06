@@ -43,8 +43,13 @@ const FeaturedPlalist = () => {
     useEffect(() => {
         fetchData();
     }, []);
+    const playAudio = (audioUrl) => {
+        console.log("Playing audio:", audioUrl);
+        const audio = new Audio(audioUrl);
+        audio.play();
+    };
     return (
-        <div>
+        <div className="all-song-page">
             <div
                 style={{ marginLeft: "20px", marginTop: "10px", fontSize: "30px" }}
             >
@@ -86,6 +91,7 @@ const FeaturedPlalist = () => {
                                                     borderRadius: "50%",
                                                     padding: "5px",
                                                 }}
+                                                onClick={() => playAudio(item.audioUrl)}
                                             >
                                                 <PlayArrowRoundedIcon
                                                     style={{ color: "white" }}

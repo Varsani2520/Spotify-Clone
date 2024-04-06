@@ -8,7 +8,6 @@ import { getPlaylistDetails } from '../service/getPlaylistDetails';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import style from '../style.css';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SkeletonType2 from './Common/SkeletonType2';
 import SkeletonType3 from './Common/SkeletonType3';
 
 const DetailPlalistAlbum = () => {
@@ -18,6 +17,7 @@ const DetailPlalistAlbum = () => {
     const [hoveredTrack, setHoveredTrack] = useState(null);
     const [playingTrack, setPlayingTrack] = useState(null);
     const audioRef = useRef(new Audio());
+    const [currentTrackInfo, setCurrentTrackInfo] = useState(null); // State to hold currently playing track's information
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,6 +37,17 @@ const DetailPlalistAlbum = () => {
             fetchData();
         }
     }, [playlist_id]);
+
+    useEffect(() => {
+        // Update currentTrackInfo whenever playingTrack changes
+        if (playingTrack !== null && detail) {
+            const currentTrack = detail.find(track => track.track.id === playingTrack);
+            setCurrentTrackInfo(currentTrack);
+
+        } else {
+            setCurrentTrackInfo(null);
+        }
+    }, [playingTrack, detail]);
 
     // Function to format milliseconds to duration (MM:SS)
     const formatDuration = (duration_ms) => {
@@ -72,70 +83,76 @@ const DetailPlalistAlbum = () => {
             audio.pause();
             audio.currentTime = 0; // Reset the audio to the beginning
             setPlayingTrack(null);
+            localStorage.removeItem('currentTrackInfo'); // Remove current track info from local storage
         } else {
             audio.src = previewUrl;
             audio.play();
             setPlayingTrack(trackId);
+            const currentTrack = detail.find(track => track.track.id === trackId);
+            localStorage.setItem('currentTrackInfo', JSON.stringify(currentTrack)); // Save current track info to local storage
         }
     };
 
     return (
-        <div className='playlist-album-table'>
-            {loading ? (
-                <SkeletonType3 />
-            ) : (
-                detail && Array.isArray(detail) && (
-                    <TableContainer>
-                        <Table>
-                            <TableHead className="fixed-header">
-                                <TableRow>
-                                    <TableCell>#</TableCell>
-                                    <TableCell>Title</TableCell>
-                                    <TableCell>Album</TableCell>
-                                    <TableCell>Date Added</TableCell>
-                                    <TableCell><AccessTimeIcon /></TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {detail.map((track, index) => (
-                                    <TableRow
-                                        key={track.track.id}
-                                        onMouseEnter={() => handleMouseEnter(track.track.id)}
-                                        onMouseLeave={handleMouseLeave}
-                                        style={{ backgroundColor: playingTrack === track.track.id ? 'lightgray' : '' }}
-                                    >
-                                        {/* Display play or pause icon based on hover and playing state */}
-                                        <TableCell>
-                                            {(hoveredTrack === track.track.id || playingTrack === track.track.id) && track.track.preview_url ? (
-                                                playingTrack === track.track.id ? (
-                                                    <PauseCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '40px' }}fontSize='large' />
-                                                ) : (
-                                                    <PlayCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white' , padding: '5px', borderRadius: '50px' }} fontSize='large'/>
-                                                )
-                                            ) : (
-                                                index + 1
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div style={{ display: 'flex', marginTop: '10px' }}>
-                                                <img src={track.track.album.images[0].url} alt={track.track.album.name} style={{ height: '50px', width: '50px', marginRight: '20px', borderRadius: '10px' }} />
-                                                <div style={{ display: 'block' }}>
-                                                    <p style={{ color: 'white', fontWeight: 'bold' }}>{track.track.name}</p>
-                                                    <p>{track.track.artists.map(artist => artist.name).join(', ')}</p>
-                                                </div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>{track.track.album.name}</TableCell>
-                                        <TableCell>{getTimeDifference(track.added_at)}</TableCell>
-                                        <TableCell>{formatDuration(track.track.duration_ms)}</TableCell>
+        <div>
+            <div className='playlist-album-table'>
+                {loading ? (
+                    <SkeletonType3 />
+                ) : (
+                    detail && Array.isArray(detail) && (
+                        <TableContainer>
+                            <Table>
+                                <TableHead className="fixed-header">
+                                    <TableRow>
+                                        <TableCell style={{color:'white'}}>#</TableCell>
+                                        <TableCell style={{color:'white'}}>Title</TableCell>
+                                        <TableCell style={{color:'white'}}>Album</TableCell>
+                                        <TableCell style={{color:'white'}}>Date Added</TableCell>
+                                        <TableCell style={{color:'white'}}><AccessTimeIcon /></TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )
-            )}
-            
+                                </TableHead>
+                                <TableBody>
+                                    {detail.map((track, index) => (
+                                        <TableRow
+                                            key={track.track.id}
+                                            onMouseEnter={() => handleMouseEnter(track.track.id)}
+                                            onMouseLeave={handleMouseLeave}
+                                            style={{ backgroundColor: playingTrack === track.track.id ? 'white' : 'none' }}
+                                        >
+                                            {/* Display play or pause icon based on hover and playing state */}
+                                            <TableCell  style={{color:'gray',lineHeight:'-20px'}}>
+                                                {(hoveredTrack === track.track.id || playingTrack === track.track.id) && track.track.preview_url ? (
+                                                    playingTrack === track.track.id ? (
+                                                        <PauseCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '40px' }} fontSize='large' />
+                                                    ) : (
+                                                        <PlayCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '50px' }} fontSize='large' />
+                                                    )
+                                                ) : (
+                                                    index + 1
+                                                )}
+                                            </TableCell>
+                                            <TableCell  >
+                                                <div style={{ display: 'flex', marginTop: '10px' }}>
+                                                    <img src={track.track.album.images[0].url} alt={track.track.album.name} style={{ height: '50px', width: '50px', marginRight: '20px', borderRadius: '10px' }} />
+                                                    <div style={{ display: 'block' }}>
+                                                        <p style={{ color: 'white', fontWeight: 'bold' }}>{track.track.name}</p>
+                                                        <p  style={{color:'gray'}}>{track.track.artists.map(artist => artist.name).join(', ')}</p>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell  style={{color:'gray'}}>{track.track.album.name}</TableCell>
+                                            <TableCell  style={{color:'gray'}}>{getTimeDifference(track.added_at)}</TableCell>
+                                            <TableCell  style={{color:'gray'}}>{formatDuration(track.track.duration_ms)}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )
+                )}
+            </div>
+            {/* Pass currentTrackInfo to BottomPart component */}
+            {/* <BottomPart currentTrackInfo={currentTrackInfo} /> */}
         </div>
     );
 };
