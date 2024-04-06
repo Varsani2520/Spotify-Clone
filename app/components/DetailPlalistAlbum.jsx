@@ -1,6 +1,6 @@
 'use client'
 import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import { getAccessToken } from '../service/getTokenService';
@@ -17,6 +17,7 @@ const DetailPlalistAlbum = () => {
     const [loading, setLoading] = useState(true);
     const [hoveredTrack, setHoveredTrack] = useState(null);
     const [playingTrack, setPlayingTrack] = useState(null);
+    const audioRef = useRef(new Audio());
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,19 +65,19 @@ const DetailPlalistAlbum = () => {
         setHoveredTrack(null);
     };
 
-   // Function to play or stop audio
-const toggleAudio = (previewUrl, trackId) => {
-    const audio = new Audio(previewUrl);
-    if (trackId === playingTrack) {
-        audio.pause();
-        audio.currentTime = 0; // Reset the audio to the beginning
-        setPlayingTrack(null);
-    } else {
-        audio.play();
-        setPlayingTrack(trackId);
-    }
-};
-
+    // Function to play or stop audio
+    const toggleAudio = (previewUrl, trackId) => {
+        const audio = audioRef.current;
+        if (trackId === playingTrack) {
+            audio.pause();
+            audio.currentTime = 0; // Reset the audio to the beginning
+            setPlayingTrack(null);
+        } else {
+            audio.src = previewUrl;
+            audio.play();
+            setPlayingTrack(trackId);
+        }
+    };
 
     return (
         <div className='playlist-album-table'>
@@ -107,9 +108,9 @@ const toggleAudio = (previewUrl, trackId) => {
                                         <TableCell>
                                             {(hoveredTrack === track.track.id || playingTrack === track.track.id) && track.track.preview_url ? (
                                                 playingTrack === track.track.id ? (
-                                                    <PauseCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} />
+                                                    <PauseCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '40px' }}fontSize='large' />
                                                 ) : (
-                                                    <PlayCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} />
+                                                    <PlayCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white' , padding: '5px', borderRadius: '50px' }} fontSize='large'/>
                                                 )
                                             ) : (
                                                 index + 1
@@ -134,6 +135,7 @@ const toggleAudio = (previewUrl, trackId) => {
                     </TableContainer>
                 )
             )}
+            
         </div>
     );
 };
