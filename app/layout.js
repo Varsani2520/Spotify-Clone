@@ -1,11 +1,18 @@
 import { Inter } from "next/font/google";
-import { Grid } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Slider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import style from "./style.css";
 import CardFirst from "./components/CardFirst";
 import CardSecond from "./components/CardSecond";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-
+import BottomPart from "./components/BottomPart";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -31,10 +38,11 @@ export default function RootLayout({ children }) {
             <div className="playlist-card">
               <Header />
               {children}
-              <Footer />
+              {/* <Footer /> */}
             </div>
           </Grid>
         </Grid>
+        <BottomPart />
       </body>
     </html>
   );

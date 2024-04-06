@@ -45,6 +45,7 @@ const CardSecond = () => {
                         color: 'white',
                         borderRadius: '40px',
                         borderColor: 'gray',
+                        marginBottom:'25px',
                         '&:hover': {
                             borderColor: 'white'
                         }

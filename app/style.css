@@ -227,7 +227,13 @@ body {
   font-weight: bold;
   border-radius: 10px;
   margin: 20px;
+ 
 }
+.page-container {
+  height: 824px; /* Set the height */
+  overflow-y: auto; /* Enable vertical overflow */
+}
+
 
 
 li:hover{

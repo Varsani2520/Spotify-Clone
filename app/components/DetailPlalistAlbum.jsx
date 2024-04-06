@@ -1,6 +1,8 @@
 'use client'
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import { getAccessToken } from '../service/getTokenService';
 import { getPlaylistDetails } from '../service/getPlaylistDetails';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
@@ -13,6 +15,8 @@ const DetailPlalistAlbum = () => {
     const { playlist_id } = useParams();
     const [detail, setDetail] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [hoveredTrack, setHoveredTrack] = useState(null);
+    const [playingTrack, setPlayingTrack] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,6 +54,30 @@ const DetailPlalistAlbum = () => {
         return `${daysDifference} days ago`;
     };
 
+    // Function to handle mouse enter event
+    const handleMouseEnter = (trackId) => {
+        setHoveredTrack(trackId);
+    };
+
+    // Function to handle mouse leave event
+    const handleMouseLeave = () => {
+        setHoveredTrack(null);
+    };
+
+   // Function to play or stop audio
+const toggleAudio = (previewUrl, trackId) => {
+    const audio = new Audio(previewUrl);
+    if (trackId === playingTrack) {
+        audio.pause();
+        audio.currentTime = 0; // Reset the audio to the beginning
+        setPlayingTrack(null);
+    } else {
+        audio.play();
+        setPlayingTrack(trackId);
+    }
+};
+
+
     return (
         <div className='playlist-album-table'>
             {loading ? (
@@ -69,8 +97,24 @@ const DetailPlalistAlbum = () => {
                             </TableHead>
                             <TableBody>
                                 {detail.map((track, index) => (
-                                    <TableRow key={track.track.id}>
-                                        <TableCell>{track.track.disc_number}</TableCell>
+                                    <TableRow
+                                        key={track.track.id}
+                                        onMouseEnter={() => handleMouseEnter(track.track.id)}
+                                        onMouseLeave={handleMouseLeave}
+                                        style={{ backgroundColor: playingTrack === track.track.id ? 'lightgray' : '' }}
+                                    >
+                                        {/* Display play or pause icon based on hover and playing state */}
+                                        <TableCell>
+                                            {(hoveredTrack === track.track.id || playingTrack === track.track.id) && track.track.preview_url ? (
+                                                playingTrack === track.track.id ? (
+                                                    <PauseCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} />
+                                                ) : (
+                                                    <PlayCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} />
+                                                )
+                                            ) : (
+                                                index + 1
+                                            )}
+                                        </TableCell>
                                         <TableCell>
                                             <div style={{ display: 'flex', marginTop: '10px' }}>
                                                 <img src={track.track.album.images[0].url} alt={track.track.album.name} style={{ height: '50px', width: '50px', marginRight: '20px', borderRadius: '10px' }} />
