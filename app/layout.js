@@ -13,6 +13,7 @@ import CardSecond from "./components/CardSecond";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import BottomPart from "./components/BottomPart";
+import { StoreProvider } from "./storeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -24,25 +25,27 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
-            <Grid item xs={12} md={12}>
-              <CardFirst />
+        <StoreProvider>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={12}>
+                <CardFirst />
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <CardSecond />
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={12}>
-              <CardSecond />
+            {/* Right part */}
+            <Grid item xs={12} md={9}>
+              <div className="playlist-card">
+                <Header />
+                {children}
+                {/* <Footer /> */}
+              </div>
             </Grid>
           </Grid>
-          {/* Right part */}
-          <Grid item xs={12} md={9}>
-            <div className="playlist-card">
-              <Header />
-              {children}
-              {/* <Footer /> */}
-            </div>
-          </Grid>
-        </Grid>
-        <BottomPart />
+          <BottomPart />
+        </StoreProvider>
       </body>
     </html>
   );

@@ -9,6 +9,10 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import style from '../style.css';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import SkeletonType3 from './Common/SkeletonType3';
+import { useDispatch } from 'react-redux'
+import { addToTracks } from '../action/action';
+import { AddIcCallOutlined } from '@mui/icons-material';
+import { useSelector } from 'react-redux'
 
 const DetailPlalistAlbum = () => {
     const { playlist_id } = useParams();
@@ -18,7 +22,7 @@ const DetailPlalistAlbum = () => {
     const [playingTrack, setPlayingTrack] = useState(null);
     const audioRef = useRef(new Audio());
     const [currentTrackInfo, setCurrentTrackInfo] = useState(null); // State to hold currently playing track's information
-
+    const dispatch = useDispatch()
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -76,22 +80,21 @@ const DetailPlalistAlbum = () => {
         setHoveredTrack(null);
     };
 
-    // Function to play or stop audio
-    const toggleAudio = (previewUrl, trackId) => {
+
+
+    function songClick(track, id) {
+        dispatch(addToTracks(track));
         const audio = audioRef.current;
-        if (trackId === playingTrack) {
+        if (playingTrack === id) {
             audio.pause();
-            audio.currentTime = 0; // Reset the audio to the beginning
             setPlayingTrack(null);
-            localStorage.removeItem('currentTrackInfo'); // Remove current track info from local storage
         } else {
-            audio.src = previewUrl;
-            audio.play();
-            setPlayingTrack(trackId);
-            const currentTrack = detail.find(track => track.track.id === trackId);
-            localStorage.setItem('currentTrackInfo', JSON.stringify(currentTrack)); // Save current track info to local storage
+            audio.src = track.track.preview_url;
+            audio.play()
+            setPlayingTrack(id);
         }
-    };
+    }
+
 
     return (
         <div>
@@ -104,11 +107,11 @@ const DetailPlalistAlbum = () => {
                             <Table>
                                 <TableHead className="fixed-header">
                                     <TableRow>
-                                        <TableCell style={{color:'white'}}>#</TableCell>
-                                        <TableCell style={{color:'white'}}>Title</TableCell>
-                                        <TableCell style={{color:'white'}}>Album</TableCell>
-                                        <TableCell style={{color:'white'}}>Date Added</TableCell>
-                                        <TableCell style={{color:'white'}}><AccessTimeIcon /></TableCell>
+                                        <TableCell style={{ color: 'white' }}>#</TableCell>
+                                        <TableCell style={{ color: 'white' }}>Title</TableCell>
+                                        <TableCell style={{ color: 'white' }}>Album</TableCell>
+                                        <TableCell style={{ color: 'white' }}>Date Added</TableCell>
+                                        <TableCell style={{ color: 'white' }}><AccessTimeIcon /></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -117,15 +120,15 @@ const DetailPlalistAlbum = () => {
                                             key={track.track.id}
                                             onMouseEnter={() => handleMouseEnter(track.track.id)}
                                             onMouseLeave={handleMouseLeave}
-                                            style={{ backgroundColor: playingTrack === track.track.id ? 'white' : 'none' }}
+                                            style={{ backgroundColor: playingTrack === track.track.id ? 'gray' : 'none' }}
                                         >
                                             {/* Display play or pause icon based on hover and playing state */}
-                                            <TableCell  style={{color:'gray',lineHeight:'-20px'}}>
+                                            <TableCell style={{ color: 'gray', lineHeight: '-20px' }}>
                                                 {(hoveredTrack === track.track.id || playingTrack === track.track.id) && track.track.preview_url ? (
                                                     playingTrack === track.track.id ? (
-                                                        <PauseCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '40px' }} fontSize='large' />
+                                                        <PauseCircleOutlineIcon onClick={() => songClick(track, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '40px' }} fontSize='large' />
                                                     ) : (
-                                                        <PlayCircleOutlineIcon onClick={() => toggleAudio(track.track.preview_url, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '50px' }} fontSize='large' />
+                                                        <PlayCircleOutlineIcon onClick={() => songClick(track, track.track.id)} sx={{ cursor: 'pointer', background: 'green', color: 'white', padding: '5px', borderRadius: '50px' }} fontSize='large' />
                                                     )
                                                 ) : (
                                                     index + 1
@@ -136,13 +139,13 @@ const DetailPlalistAlbum = () => {
                                                     <img src={track.track.album.images[0].url} alt={track.track.album.name} style={{ height: '50px', width: '50px', marginRight: '20px', borderRadius: '10px' }} />
                                                     <div style={{ display: 'block' }}>
                                                         <p style={{ color: 'white', fontWeight: 'bold' }}>{track.track.name}</p>
-                                                        <p  style={{color:'gray'}}>{track.track.artists.map(artist => artist.name).join(', ')}</p>
+                                                        <p style={{ color: 'gray' }}>{track.track.artists.map(artist => artist.name).join(', ')}</p>
                                                     </div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell  style={{color:'gray'}}>{track.track.album.name}</TableCell>
-                                            <TableCell  style={{color:'gray'}}>{getTimeDifference(track.added_at)}</TableCell>
-                                            <TableCell  style={{color:'gray'}}>{formatDuration(track.track.duration_ms)}</TableCell>
+                                            <TableCell style={{ color: 'gray' }}>{track.track.album.name}</TableCell>
+                                            <TableCell style={{ color: 'gray' }}>{getTimeDifference(track.added_at)}</TableCell>
+                                            <TableCell style={{ color: 'gray' }}>{formatDuration(track.track.duration_ms)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
