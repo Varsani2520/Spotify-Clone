@@ -10,7 +10,8 @@ import MicIcon from '@mui/icons-material/Mic';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
-const BottomPart = () => {``
+const BottomPart = () => {
+    ``
     const song = useSelector((state) => state.selectedTrack.currentTrack);
     const [playSong, setPlaySong] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -75,17 +76,18 @@ const BottomPart = () => {``
 
     return (
         <div style={{ background: 'black', color: 'white' }}>
+
             <Grid container spacing={3}>
                 {/* Left side */}
                 <Grid item xs={12} md={4}>
                     <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '50px' }}>
-                        {song && (
+                        {song ? (
                             <img
                                 alt={song.track.album.name}
                                 src={song.track.album.images[0].url}
                                 style={{ height: '50px', width: '50px', borderRadius: '10px' }}
                             />
-                        )}
+                        ) : ""}
                         <Box sx={{ ml: 1.5, minWidth: 0 }}>
                             <Typography variant="caption" color="text.secondary" fontWeight={500}>
                                 {song ? song.track.artists.map((artist) => artist.name).join(', ') : ''}
