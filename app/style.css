@@ -123,7 +123,7 @@ body {
    }
 
 .footer{
-  margin-top: 130px;
+  margin-top: 50px;
   margin-bottom: 30px;
   margin-left: 5px;
 }
@@ -227,12 +227,12 @@ body {
   font-weight: bold;
   border-radius: 10px;
   margin: 20px;
-  height:868px;
+  height:778px;
   overflow-y: auto;
  
 }
 .page-container {
-  height: 824px; /* Set the height */
+  height: 778px; /* Set the height */
   overflow-y: auto; /* Enable vertical overflow */
 }
 

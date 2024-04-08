@@ -10,8 +10,7 @@ import MicIcon from '@mui/icons-material/Mic';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
-import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
-const BottomPart = () => {
+const BottomPart = () => {``
     const song = useSelector((state) => state.selectedTrack.currentTrack);
     const [playSong, setPlaySong] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
