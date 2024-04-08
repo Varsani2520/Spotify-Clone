@@ -1,7 +1,7 @@
 'use client'
-import { Box, Grid, IconButton, Slider, Stack, Typography } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Box, Grid, IconButton, Slider, Typography } from '@mui/material';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
@@ -13,21 +13,69 @@ import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import PhonelinkIcon from '@mui/icons-material/Phonelink';
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
 import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
-
 const BottomPart = () => {
     const song = useSelector((state) => state.selectedTrack.currentTrack);
-    const [playSong, setPlaySong] = useState(false)
-    const audioRef = useRef(null)
+    const [playSong, setPlaySong] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const audioRef = useRef(null);
+    const [volume, setVolume] = useState(100)
+    // Add a function to handle volume change
+    const handleVolumeChange = (event, newValue) => {
+        setVolume(newValue); // Update volume state
+        if (audioRef.current) {
+            audioRef.current.volume = newValue / 100; // Update audio volume
+        }
+    };
+
+    useEffect(() => {
+        const audioElement = audioRef.current;
+
+        // Update duration when metadata is loaded
+        const handleLoadedMetadata = () => {
+            setDuration(audioElement.duration);
+        };
+
+        // Update current time as the audio plays
+        const handleTimeUpdate = () => {
+            setCurrentTime(audioElement.currentTime);
+        };
+
+        // Add event listeners
+        audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+        audioElement.addEventListener('timeupdate', handleTimeUpdate);
+
+        // Cleanup function
+        return () => {
+            audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+            audioElement.removeEventListener('timeupdate', handleTimeUpdate);
+        };
+    }, [song]);
+
     const toggleSong = () => {
         if (!audioRef.current) return;
         if (!playSong) {
-            audioRef.current.play()
+            audioRef.current.play();
+        } else {
+            audioRef.current.pause();
         }
-        else {
-            audioRef.current.pause()
+        setPlaySong(!playSong);
+    };
+
+    const handleSeek = (event, newValue) => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = newValue;
+            setCurrentTime(newValue);
         }
-        setPlaySong(true)
-    }
+    };
+
+    const formatTime = (timeInSeconds) => {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = Math.floor(timeInSeconds % 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+
     return (
         <div style={{ background: 'black', color: 'white' }}>
             <Grid container spacing={3}>
@@ -58,33 +106,33 @@ const BottomPart = () => {
                 {/* Center grid */}
                 <Grid item xs={12} md={4} container justifyContent="center" alignItems="center">
                     {/* Playback controls */}
-                    <IconButton>
-                        <SkipPreviousRoundedIcon sx={{ color: 'gray' }} />
-                    </IconButton>
+
                     <IconButton onClick={toggleSong}>
                         {playSong ? <PauseCircleIcon sx={{ color: 'gray' }} /> : <PlayCircleIcon sx={{ color: 'gray' }} />}
                     </IconButton>
-                    <IconButton>
-                        <FastForwardRoundedIcon sx={{ color: 'gray' }} />
-                    </IconButton>
-                    {/* Volume slider */}
-                    <Stack>
-                        <Slider
-                            aria-label="speed time track of song "
-                            sx={{
-                                width: '50px',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                            }}
-                        />
-                    </Stack>
+
+                    {/* Time track song slider */}
+                    {formatTime(currentTime)}
+                    <Slider
+                        value={currentTime}
+                        max={duration}
+                        onChange={handleSeek}
+                        aria-label="time track of song"
+                        sx={{
+                            width: '200px',
+                            color: 'white',
+                        }}
+                    />
+                    {formatTime(duration)}
                 </Grid>
 
                 {/* Right grid */}
                 <Grid item xs={12} md={4} container justifyContent="flex-end" alignItems="center">
                     <IconButton>
-                        <SlideshowRoundedIcon sx={{ color: 'gray' }} />
+                        {
+                            playSong ? (<SlideshowRoundedIcon sx={{ color: 'green' }} />) : (<SlideshowRoundedIcon sx={{ color: 'gray' }} />)
+                        }
+
                     </IconButton>
                     <IconButton>
                         <MicIcon sx={{ color: 'gray' }} />
@@ -101,12 +149,14 @@ const BottomPart = () => {
                     {/* Volume slider */}
                     <IconButton>
                         <Slider
+                            value={volume}
+                            onChange={handleVolumeChange}
                             aria-label="Volume"
                             sx={{
                                 width: '150px',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: 'white',
+                                color: 'green',
                             }}
                         />
                     </IconButton>
