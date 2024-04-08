@@ -1,6 +1,6 @@
 'use client'
 import { Box, Grid, IconButton, Slider, Stack, Typography } from '@mui/material';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -16,7 +16,18 @@ import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
 
 const BottomPart = () => {
     const song = useSelector((state) => state.selectedTrack.currentTrack);
-
+    const [playSong, setPlaySong] = useState(false)
+    const audioRef = useRef(null)
+    const toggleSong = () => {
+        if (!audioRef.current) return;
+        if (!playSong) {
+            audioRef.current.play()
+        }
+        else {
+            audioRef.current.pause()
+        }
+        setPlaySong(true)
+    }
     return (
         <div style={{ background: 'black', color: 'white' }}>
             <Grid container spacing={3}>
@@ -50,8 +61,8 @@ const BottomPart = () => {
                     <IconButton>
                         <SkipPreviousRoundedIcon sx={{ color: 'gray' }} />
                     </IconButton>
-                    <IconButton>
-                        {song ? <PauseCircleIcon sx={{ color: 'gray' }} /> : <PlayCircleIcon sx={{ color: 'gray' }} />}
+                    <IconButton onClick={toggleSong}>
+                        {playSong ? <PauseCircleIcon sx={{ color: 'gray' }} /> : <PlayCircleIcon sx={{ color: 'gray' }} />}
                     </IconButton>
                     <IconButton>
                         <FastForwardRoundedIcon sx={{ color: 'gray' }} />
@@ -59,7 +70,7 @@ const BottomPart = () => {
                     {/* Volume slider */}
                     <Stack>
                         <Slider
-                            aria-label="Volume"
+                            aria-label="speed time track of song "
                             sx={{
                                 width: '50px',
                                 alignItems: 'center',
@@ -104,6 +115,10 @@ const BottomPart = () => {
                     </IconButton>
                 </Grid>
             </Grid>
+            {/* Audio element */}
+            {song && (
+                <audio ref={audioRef} src={song.track.preview_url} preload="auto" />
+            )}
         </div>
     );
 };
