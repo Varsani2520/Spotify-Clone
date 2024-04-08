@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 import { Box, Grid, IconButton, Slider, Typography } from '@mui/material';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
-import FastForwardRoundedIcon from '@mui/icons-material/FastForwardRounded';
 import VolumeDown from '@mui/icons-material/VolumeDown';
 import SlideshowRoundedIcon from '@mui/icons-material/SlideshowRounded';
 import MicIcon from '@mui/icons-material/Mic';

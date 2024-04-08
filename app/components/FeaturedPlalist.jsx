@@ -6,7 +6,7 @@ import MyText from './Common/MyText';
 import MyCardSkeleton from './Common/MyCardSkeleton';
 import { IconButton } from '@mui/material';
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-
+import Link from 'next/link'
 const FeaturedPlalist = () => {
     const [playlist, setPlaylist] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -66,14 +66,14 @@ const FeaturedPlalist = () => {
                                     {/* Display playlist image */}
                                     {item.images.length > 0 && (
                                         <div className="playlist-content">
-                                            <a href={`/playlists/${item.id}`}>
+                                            <Link href={`/playlists/${item.id}`}>
                                                 <img
                                                     height="170px"
                                                     style={{ borderRadius: "10px" }}
                                                     src={item.images[0].url}
                                                     alt="playlist-image"
                                                 />
-                                            </a>
+                                            </Link>
                                             <MyText
                                                 text1={item.name}
                                                 text2={truncateDescription(item.description, 5)}
