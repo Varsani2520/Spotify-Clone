@@ -76,99 +76,107 @@ const BottomPart = () => {
 
     return (
         <div style={{ background: 'black', color: 'white' }}>
+            {
+                song ? (
+                    <div><Grid container spacing={3}>
+                        {/* Left side */}
 
-            <Grid container spacing={3}>
-                {/* Left side */}
-                <Grid item xs={12} md={4}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '50px' }}>
-                        {song ? (
-                            <img
-                                alt={song.track.album.name}
-                                src={song.track.album.images[0].url}
-                                style={{ height: '50px', width: '50px', borderRadius: '10px' }}
+
+
+                        <Grid item xs={12} md={4}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '50px' }}>
+                                {song ? (
+                                    <img
+                                        alt={song.track.album.name}
+                                        src={song.track.album.images[0].url}
+                                        style={{ height: '50px', width: '50px', borderRadius: '10px' }}
+                                    />
+                                ) : ""}
+                                <Box sx={{ ml: 1.5, minWidth: 0 }}>
+                                    <Typography variant="caption" color="text.secondary" fontWeight={500}>
+                                        {song ? song.track.artists.map((artist) => artist.name).join(', ') : ''}
+                                    </Typography>
+                                    <Typography noWrap>
+                                        <b>{song ? song.track.name : ''}</b>
+                                    </Typography>
+                                    <Typography noWrap letterSpacing={-0.25}>
+                                        {song ? song.track.album.name : ''}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Grid>
+
+                        {/* Center grid */}
+                        <Grid item xs={12} md={4} container justifyContent="center" alignItems="center">
+                            {/* Playback controls */}
+
+                            <IconButton onClick={toggleSong}>
+                                {playSong ? <PauseCircleIcon sx={{ color: 'gray' }} /> : <PlayCircleIcon sx={{ color: 'gray' }} />}
+                            </IconButton>
+
+                            {/* Time track song slider */}
+                            {formatTime(currentTime)}
+                            <Slider
+                                value={currentTime}
+                                max={duration}
+                                onChange={handleSeek}
+                                aria-label="time track of song"
+                                sx={{
+                                    width: '200px',
+                                    color: 'white',
+                                }}
                             />
-                        ) : ""}
-                        <Box sx={{ ml: 1.5, minWidth: 0 }}>
-                            <Typography variant="caption" color="text.secondary" fontWeight={500}>
-                                {song ? song.track.artists.map((artist) => artist.name).join(', ') : ''}
-                            </Typography>
-                            <Typography noWrap>
-                                <b>{song ? song.track.name : ''}</b>
-                            </Typography>
-                            <Typography noWrap letterSpacing={-0.25}>
-                                {song ? song.track.album.name : ''}
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Grid>
+                            {formatTime(duration)}
+                        </Grid>
 
-                {/* Center grid */}
-                <Grid item xs={12} md={4} container justifyContent="center" alignItems="center">
-                    {/* Playback controls */}
+                        {/* Right grid */}
+                        <Grid item xs={12} md={4} container justifyContent="flex-end" alignItems="center">
+                            <IconButton>
+                                {
+                                    playSong ? (<SlideshowRoundedIcon sx={{ color: 'green' }} />) : (<SlideshowRoundedIcon sx={{ color: 'gray' }} />)
+                                }
 
-                    <IconButton onClick={toggleSong}>
-                        {playSong ? <PauseCircleIcon sx={{ color: 'gray' }} /> : <PlayCircleIcon sx={{ color: 'gray' }} />}
-                    </IconButton>
-
-                    {/* Time track song slider */}
-                    {formatTime(currentTime)}
-                    <Slider
-                        value={currentTime}
-                        max={duration}
-                        onChange={handleSeek}
-                        aria-label="time track of song"
-                        sx={{
-                            width: '200px',
-                            color: 'white',
-                        }}
-                    />
-                    {formatTime(duration)}
-                </Grid>
-
-                {/* Right grid */}
-                <Grid item xs={12} md={4} container justifyContent="flex-end" alignItems="center">
-                    <IconButton>
+                            </IconButton>
+                            <IconButton>
+                                <MicIcon sx={{ color: 'gray' }} />
+                            </IconButton>
+                            <IconButton>
+                                <QueueMusicIcon sx={{ color: 'gray' }} />
+                            </IconButton>
+                            <IconButton>
+                                <PhonelinkIcon sx={{ color: 'gray' }} />
+                            </IconButton>
+                            <IconButton>
+                                <VolumeDown sx={{ color: 'gray' }} />
+                            </IconButton>
+                            {/* Volume slider */}
+                            <IconButton>
+                                <Slider
+                                    value={volume}
+                                    onChange={handleVolumeChange}
+                                    aria-label="Volume"
+                                    sx={{
+                                        width: '150px',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'green',
+                                    }}
+                                />
+                            </IconButton>
+                            <IconButton>
+                                <CloseFullscreenRoundedIcon sx={{ color: 'gray' }} />
+                            </IconButton>
+                        </Grid>
+                    </Grid>  {/* Audio element */}
                         {
-                            playSong ? (<SlideshowRoundedIcon sx={{ color: 'green' }} />) : (<SlideshowRoundedIcon sx={{ color: 'gray' }} />)
-                        }
+                            song && (
+                                <audio ref={audioRef} src={song.track.preview_url} preload="auto" />
+                            )
+                        }</div>) : (<></>)
+            }
 
-                    </IconButton>
-                    <IconButton>
-                        <MicIcon sx={{ color: 'gray' }} />
-                    </IconButton>
-                    <IconButton>
-                        <QueueMusicIcon sx={{ color: 'gray' }} />
-                    </IconButton>
-                    <IconButton>
-                        <PhonelinkIcon sx={{ color: 'gray' }} />
-                    </IconButton>
-                    <IconButton>
-                        <VolumeDown sx={{ color: 'gray' }} />
-                    </IconButton>
-                    {/* Volume slider */}
-                    <IconButton>
-                        <Slider
-                            value={volume}
-                            onChange={handleVolumeChange}
-                            aria-label="Volume"
-                            sx={{
-                                width: '150px',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'green',
-                            }}
-                        />
-                    </IconButton>
-                    <IconButton>
-                        <CloseFullscreenRoundedIcon sx={{ color: 'gray' }} />
-                    </IconButton>
-                </Grid>
-            </Grid>
-            {/* Audio element */}
-            {song && (
-                <audio ref={audioRef} src={song.track.preview_url} preload="auto" />
-            )}
-        </div>
+
+        </div >
     );
 };
 
