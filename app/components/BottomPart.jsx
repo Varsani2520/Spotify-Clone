@@ -28,7 +28,7 @@ const BottomPart = () => {
 
     useEffect(() => {
         const audioElement = audioRef.current;
-
+        if (!audioElement) return;
         // Update duration when metadata is loaded
         const handleLoadedMetadata = () => {
             setDuration(audioElement.duration);
