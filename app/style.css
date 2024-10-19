@@ -1,205 +1,200 @@
 /* Existing styles */
 body {
-    background-color: black;
-    color: white;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-weight: bold;
-  }
-    
-  .tabs ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .tabs ul li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .tabs ul li img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
-  
-  /* Styling for Home and Search tabs */
-  .tabs ul li span {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .tabs ul li:hover span {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  
-  .tab.home:hover span,
-  .tab.search:hover span {
-    color: white;
-    cursor: pointer; /* Change color on hover for Home and Search tabs */
-  }
-  .tab-search{
-    color:gray
-  }
- .tab-search:hover{
-    color:white;
-    cursor: pointer;
- }
-  .spotify-logo {
-    border-radius: 20px;
-  }
-  
-  .card {
-    background-color: #121212;
-    padding: 10px;
-    color: white;
-    font-weight: bold;
-    border-radius: 10px;
-    margin: 20px;
-  }
- 
-  .card-content {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-top: 5px;
-  }
-  
-  .library-img {
-    width: 30px; /* Adjust size as needed */
-    height: 30px; /* Adjust size as needed */
-    filter: grayscale(100%);
-    background-color: transparent; /* Convert to gray */
-  }
-  .library-img,.library-text:hover{
-    cursor: pointer;
-  }
-  .library-text {
-    color: gray;
-    margin-left: 10px; /* Add space between image and text */
-    flex-grow: 1; /* Allow the text to grow and take up available space */
-  }
-  
-  .plus-icon {
-    color: gray;
-    font-size: 26px;
-    padding-right: 30px; /* Adjust size as needed */
-  }
-  .plus-icon:hover{
-    cursor: pointer;
-  }
+  background-color: black;
+  color: white;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: bold;
+}
 
-  /* 2nd card gray color
+.tabs ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.tabs ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tabs ul li img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+/* Styling for Home and Search tabs */
+.tabs ul li span {
+  color: white;
+  text-decoration: none;
+}
+
+.tabs ul li:hover span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tab.home:hover span,
+.tab.search:hover span {
+  color: white;
+  cursor: pointer; /* Change color on hover for Home and Search tabs */
+}
+.tab-search {
+  color: gray;
+}
+.tab-search:hover {
+  color: white;
+  cursor: pointer;
+}
+.spotify-logo {
+  border-radius: 20px;
+}
+
+.card {
+  background-color: #121212;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.library-img {
+  width: 30px; /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  filter: grayscale(100%);
+  background-color: transparent; /* Convert to gray */
+}
+.library-img,
+.library-text:hover {
+  cursor: pointer;
+}
+.library-text {
+  color: gray;
+  margin-left: 10px; /* Add space between image and text */
+  flex-grow: 1; /* Allow the text to grow and take up available space */
+}
+
+.plus-icon {
+  color: gray;
+  font-size: 26px;
+  padding-right: 30px; /* Adjust size as needed */
+}
+.plus-icon:hover {
+  cursor: pointer;
+}
+
+/* 2nd card gray color
    */
 
-   .card-second{
-    background-color:#242424 ;
-    color:white;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    margin-left: 5px;
-    margin-top: 5px;
-   }
-
-
-   button{
-    background-color: white;
-    color: black;
-    border-radius: 20px;
-    padding: 10px;
-    font-weight: bold;
-  }
-  button:hover{
-  cursor: pointer;
-
+.card-second {
+  background-color: #242424;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
-   h4{
-    color:'white';
-   }
-   h5{
-    color:gray;
-   }
 
-.footer{
+button {
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  font-weight: bold;
+}
+button:hover {
+  cursor: pointer;
+}
+h4 {
+  color: "white";
+  padding: 0;
+  margin: 0;
+}
+h5 {
+  color: gray;
+  padding: 0;
+  margin: 0;
+}
+
+.footer {
   margin-top: 50px;
   margin-bottom: 30px;
   margin-left: 5px;
 }
-   .footer ul{
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-   }
-   .footer ul li {
-    color: #6c6c6c;
-    font-size: 12px; /* Set the font size smaller */
-    margin-right: 10px; /* Add some spacing between list items */
-  }
-
-  .language{
-    width: fit-content;
-    border:1px solid gray;
-    border-radius: 70px;
-    padding: 5px;
-    justify-content: center;
-    text-align: center;
-  }
-  .language:hover{
-    border:1px solid white;
-    cursor: pointer;
-  }
-
-  .flex-container {
-    display: flex;
-    /* margin-top: 50px; */
-    
-  }
-  
-  .icon-list {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-    padding-right: 10px;
-  }
-  
-  
-  .flex-container ul {
-    margin-right: 150px; /* Adjust spacing between ul elements as needed */
-  }
-  
-  .flex-container ul li {
-    list-style: none;
-    margin-bottom: 10px; /* Adjust spacing between li elements as needed */
-  }
- .playlist-items{
+.footer ul {
+  list-style-type: none;
+  padding: 0;
   display: flex;
-  margin-right: -20px;
-  margin-left: 20px;
- }
+}
+.footer ul li {
+  color: #6c6c6c;
+  font-size: 12px; /* Set the font size smaller */
+  margin-right: 10px; /* Add some spacing between list items */
+}
 
+.language {
+  width: fit-content;
+  border: 1px solid gray;
+  border-radius: 70px;
+  padding: 5px;
+  justify-content: center;
+  text-align: center;
+}
+.language:hover {
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.flex-container {
+  display: flex;
+  /* margin-top: 50px; */
+}
+
+.icon-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  padding-right: 10px;
+}
+
+.flex-container ul {
+  margin-right: 150px; /* Adjust spacing between ul elements as needed */
+}
+
+.flex-container ul li {
+  list-style: none;
+  margin-bottom: 10px; /* Adjust spacing between li elements as needed */
+}
+.playlist-items {
+  display: flex;
+  justify-content: space-between;
+}
 
 .hide-card {
   display: flex;
   flex-wrap: wrap;
-  margin-top:20px /* Allow items to wrap to new rows */
+  margin-top: 20px; /* Allow items to wrap to new rows */
 }
 
 .playlist-items {
   display: flex;
-  margin-right: 16px;
-  width: 155px;
   position: relative;
   transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
 
 .playlist-items:hover .playlist-content {
   background-color: #373333;
-  width: fit-content;
-  height: fit-content;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -207,7 +202,10 @@ body {
 .playlist-content {
   position: relative;
   width: 150px; /* Fixed width for each item */
+  justify-content: space-between;
+  padding: 10px;
 }
+
 .play-icon {
   position: absolute;
   top: 37%; /* Align vertically */
@@ -220,42 +218,39 @@ body {
   display: block; /* Show the icon on hover */
 }
 
-.playlist-card{
+.playlist-card {
   background-color: #121212;
   /* padding: 10px; */
   color: white;
   font-weight: bold;
   border-radius: 10px;
   margin: 20px;
-  height:778px;
+  max-height: 1000px;
   overflow-y: auto;
- 
 }
 .page-container {
   height: 778px; /* Set the height */
   overflow-y: auto; /* Enable vertical overflow */
 }
 
-
-
-li:hover{
+li:hover {
   text-decoration: underline;
   color: gray;
   cursor: pointer;
 }
- 
-.playlist-detail{
+
+.playlist-detail {
   /* background: linear-gradient(135deg, #3d1805, #000000); */
-  background:linear-gradient(135deg,#242424,#373333);
+  background: linear-gradient(135deg, #242424, #373333);
   min-height: 100px;
-  padding: 20px;
+  padding-block: 20px;
+  padding-right: 30px;
   border-radius: 10px;
-  margin-top: 10px;
 }
-h1{
+h1 {
   font-size: 6rem;
   white-space: nowrap;
-  margin:0;
+  margin: 0;
 }
 /* .css-1ygcj2i-MuiTableCell-root , .css-1ex1afd-MuiTableCell-root{
   color:gray;
@@ -271,39 +266,35 @@ h1{
   border-bottom: 1px solid gray;
 
 } */
-.playlist-album-table{
-  color:gray;
+.playlist-album-table {
+  color: gray;
   /* background: linear-gradient(to top, black, #3d1805); */
   /* background-color: black; */
 }
-.fixed-header{
+.fixed-header {
   color: gray;
 }
 
-td{
+td {
   border-bottom: none !important;
- padding: 0px !important;
+  padding: 0px !important;
 }
 
-tr:hover{
+tr:hover {
   background-color: #373333;
   cursor: pointer;
 }
 
-
-
 .playlist-container {
   display: flex;
   flex-wrap: wrap;
+  gap: 25px;
+  margin-inline: 20px;
 }
 
-
 .playlist-content {
-  position: relative;
-  height: 250px; /* Fixed height for all cards */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .playlist-image {
@@ -327,4 +318,22 @@ tr:hover{
     max-width: 100%;
     height: auto;
   }
+}
+.artist-card {
+  padding: 10px;
+}
+
+.artist-card:hover {
+  background: linear-gradient(
+    0deg,
+    rgba(195, 201, 196, 0.43039222524947474) 0%,
+    rgba(255, 255, 255, 0) 56%
+  );
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+p {
+  padding: 0;
+  margin: 0;
 }
