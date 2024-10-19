@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getArtists } from "../service/getPlaylist";
 import { getAccessToken } from "../service/getTokenService";
 import MyText from "./Common/MyText";
+import Link from "next/link";
 
 const PopularArtist = () => {
   const [artists, setArtists] = useState([]); // State to store artist data
@@ -12,7 +13,7 @@ const PopularArtist = () => {
   const artistIds = [
     "2CIMQHirSU0MQqyYHq0eOx",
     "57dN52uHvrHOxijzpIgu3E",
-    "1vCWHaC5f2uS3yhpwWbIA6"
+    "1vCWHaC5f2uS3yhpwWbIA6",
   ];
 
   useEffect(() => {
@@ -48,25 +49,40 @@ const PopularArtist = () => {
 
   return (
     <div className="all-song-page">
-      <MyText text1={"Popular Artists"} />
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <MyText
+        text1={"Popular Artists"}
+        style={{ fontSize: "20px", marginLeft: "20px", marginTop: "20px" }}
+      />
+      <div style={{ display: "flex" }}>
         {artists.map((artist) => (
-          <div
-            key={artist.id}
-            style={{
-              margin: "10px",
-              textAlign: "center",
-              width: "200px",
-              height: "200px"
-            }}
-          >
-            <img
-              src={artist.images[0]?.url} // Use optional chaining to avoid errors
-              alt={artist.name}
-              style={{ width: "100%", height: "100%", borderRadius: "50%" }}
-            />
-            <p>{artist.name}</p>
-          </div>
+          <Link href={`/artist/${artist.id}`} style={{textDecoration: "none", color: "white"}}>
+            <div
+              key={artist.id}
+              className="artist-card"
+              style={{
+                margin: "10px",
+                width: "200px",
+                height: "250px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={artist.images[0]?.url} // Use optional chaining to avoid errors
+                alt={artist.name}
+                style={{ width: "200px", height: "80%", borderRadius: "50%", alignItems: "center" }}
+              />
+              <p style={{ textAlign: "start", marginTop: "20px", textDecoration: "none" }}>
+                {artist.name}
+              </p>
+              <p
+                style={{ textAlign: "start", color: "gray", marginTop: "4px", textDecoration: "none" }}
+              >
+                artist
+              </p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
