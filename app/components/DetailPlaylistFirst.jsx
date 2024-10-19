@@ -1,72 +1,113 @@
-'use client'
-import { Grid } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { getAccessToken } from '../service/getTokenService';
-import { getPlaylistDetails } from '../service/getPlaylistDetails';
-import { useParams } from 'next/navigation';
-import SkeletonType2 from './Common/SkeletonType2';
+"use client";
+import { Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { getAccessToken } from "../service/getTokenService";
+import { getPlaylistDetails } from "../service/getPlaylistDetails";
+import { useParams } from "next/navigation";
+import SkeletonType2 from "./Common/SkeletonType2";
 
 const DetailPlaylistFirst = () => {
-    const { playlist_id } = useParams();
-    const [detail, setDetail] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const { playlist_id } = useParams();
+  const [detail, setDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = await getAccessToken();
+        localStorage.setItem("access_token", accessToken);
+        const detailData = await getPlaylistDetails(playlist_id, accessToken);
+        setDetail(detailData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching playlist details:", error);
+      }
+    };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const accessToken = await getAccessToken();
-                localStorage.setItem('access_token', accessToken);
-                const detailData = await getPlaylistDetails(playlist_id, accessToken);
-                setDetail(detailData);
-                setLoading(false)
+    if (playlist_id) {
+      fetchData();
+    }
+  }, [playlist_id]);
 
-            } catch (error) {
-                console.error("Error fetching playlist details:", error);
-            }
-        };
+  return (
+    <div className="playlist-detail" style={{ padding: "20px" }}>
+      <Grid
+        container
+        spacing={2}
+        alignItems="center"
+        sx={{ textAlign: { xs: "center", md: "left" } }} // Align center on small screens, left on larger screens
+      >
+        {/* Image Section */}
+        <Grid item xs={12} md={3} display="flex" justifyContent="center">
+          {loading ? (
+            <SkeletonType2 />
+          ) : (
+            detail &&
+            detail.images.length > 0 && (
+              <img
+                src={detail.images[0].url}
+                alt="Playlist Image"
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  maxWidth: "250px",
+                  maxHeight: "250px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                }}
+              />
+            )
+          )}
+        </Grid>
 
-        if (playlist_id) {
-            fetchData();
-        }
-    }, [playlist_id]);
-    return (
-        <div className='playlist-detail'>
+        {/* Text Content Section */}
+        <Grid item xs={12} md={9}>
+          {loading ? (
+            <SkeletonType2 />
+          ) : (
+            <>
+              <p style={{ color: "inherit", fontWeight: "bold", fontSize: "16px" }}>
+                {detail?.type}
+              </p>
+              <h1 style={{ fontSize: "2rem", margin: "10px 0" }}>{detail?.name}</h1>
+              <p style={{ color: "gray", fontSize: "1rem", marginBottom: "20px" }}>
+                {detail?.description}
+              </p>
 
-            <Grid container spacing={1}>
-                <Grid item xs={12} md={3}>
-                    {
-                        loading ? (<SkeletonType2 />) : (
+              {/* Spotify logo and owner details */}
+              {detail && detail.owner && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <img
+                    src="https://e1.pngegg.com/pngimages/532/220/png-clipart-spotify-for-macos-spotify-logo.png"
+                    alt="Spotify Icon"
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                    }}
+                  />
+                  <span>{detail.owner.display_name}</span>
+                  <span style={{ color: "gray" }}>{detail.followers.total} likes</span>
+                </div>
+              )}
 
-                            detail && detail.images.length > 0 && (
-                                <img src={detail.images[0].url} alt='Playlist Image' style={{ height: '250px', width: '250px', borderRadius: '10px' }} />
-                            )
-                        )
-                    }
-                </Grid>
-                <Grid item xs={12} md={9} sx={{ marginLeft: '-100px' }}>
-                    <p style={{ color: 'inherit' }}>{detail?.type}</p>
-                    <h1>{detail?.name}</h1>
-                    <p style={{ color: 'gray' }}>{detail?.description}</p>
-                    {/* spotify logo and name : likes .. */}
-                    {detail && detail.owner && (
-                        <p style={{ fontWeight: 'bold' }}>
-                            <img
-                                src="https://e1.pngegg.com/pngimages/532/220/png-clipart-spotify-for-macos-spotify-logo.png"
-                                alt="spotify_icon"
-                                className="spotify-logo"
-                                style={{ height: '20px', width: '20px' }} />
-                            {detail.owner.display_name}
-                            {detail.followers.total} likes
-                        </p>
-                    )}
-                    {/* total songs ,about 2 hr 45 min */}
-                    <p>{detail?.tracks.total} songs, about 2 hr 45 min</p>
-                </Grid>
+              {/* Total songs and duration */}
+              <p>{detail?.tracks.total} songs, about 2 hr 45 min</p>
+            </>
+          )}
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
 
-            </Grid >
-        </div>
-    )
-}
-
-export default DetailPlaylistFirst
+export default DetailPlaylistFirst;

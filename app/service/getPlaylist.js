@@ -9,3 +9,14 @@ export async function getPlaylist(accessToken) {
 
   return response.data;
 }
+
+// get artists
+export async function getArtists(accessToken,id) {
+  const response = await httpAxios.get(`/artists/${id}`, {
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
+  });
+
+  return response.data;
+}
