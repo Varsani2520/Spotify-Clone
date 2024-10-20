@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import { addToTracks } from "../action/action";
 import { AddIcCallOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const DetailPlalistAlbum = () => {
   const { playlist_id } = useParams();
@@ -36,6 +37,7 @@ const DetailPlalistAlbum = () => {
         const accessToken = await getAccessToken();
         localStorage.setItem("access_token", accessToken);
         const detailData = await getPlaylistDetails(playlist_id, accessToken);
+        console.log("playlist detail", detailData);
         setDetail(detailData.tracks.items);
         setLoading(false);
         console.log("details", detailData.tracks.items);
@@ -180,20 +182,34 @@ const DetailPlalistAlbum = () => {
                             }}
                           />
                           <div style={{ display: "block" }}>
-                            <p style={{ color: "white", fontWeight: "bold" }}>
-                              {track.track.name}
-                            </p>
+                            <Link href={`/track/${track.track.id}`}>
+                              <p style={{ color: "white", fontWeight: "bold" }}>
+                                {track.track.name}
+                              </p>
+                            </Link>
                             <p style={{ color: "gray" }}>
-                              {track.track.artists
-                                .map((artist) => artist.name)
-                                .join(", ")}
+                              {track.track.artists.map((artist, index) => (
+                                <Link
+                                  key={artist.id}
+                                  href={`/artist/${artist.id}`}
+                                  style={{ color: "gray" }}
+                                >
+                                  {artist.name}
+                                  {/* Add comma between artists except after the last artist */}
+                                  {index < track.track.artists.length - 1
+                                    ? ", "
+                                    : ""}
+                                </Link>
+                              ))}
                             </p>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell style={{ color: "gray" }}>
-                        {track.track.album.name}
-                      </TableCell>
+                      <Link href={`/album/${track.track.album.id}`}>
+                        <TableCell style={{ color: "gray" }}>
+                          {track.track.album.name}
+                        </TableCell>
+                      </Link>
                       <TableCell style={{ color: "gray" }}>
                         {getTimeDifference(track.added_at)}
                       </TableCell>
