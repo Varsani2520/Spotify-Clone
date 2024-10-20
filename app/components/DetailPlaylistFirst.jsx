@@ -6,29 +6,7 @@ import { getPlaylistDetails } from "../service/getPlaylistDetails";
 import { useParams } from "next/navigation";
 import SkeletonType2 from "./Common/SkeletonType2";
 
-const DetailPlaylistFirst = () => {
-  const { playlist_id } = useParams();
-  const [detail, setDetail] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const accessToken = await getAccessToken();
-        localStorage.setItem("access_token", accessToken);
-        const detailData = await getPlaylistDetails(playlist_id, accessToken);
-        setDetail(detailData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching playlist details:", error);
-      }
-    };
-
-    if (playlist_id) {
-      fetchData();
-    }
-  }, [playlist_id]);
-
+const DetailPlaylistFirst = ({ detail, loading }) => {
   return (
     <div className="playlist-detail">
       <Grid
@@ -66,12 +44,27 @@ const DetailPlaylistFirst = () => {
             <SkeletonType2 />
           ) : (
             <>
-             <p style={{ color: "inherit", fontWeight: "bold", fontSize: "16px" }}>
-  {detail?.type.charAt(0).toUpperCase() + detail?.type.slice(1).toLowerCase()}
-</p>
+              <p
+                style={{
+                  color: "inherit",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                }}
+              >
+                {detail?.type.charAt(0).toUpperCase() +
+                  detail?.type.slice(1).toLowerCase()}
+              </p>
 
-              <h1 style={{ fontSize: "2rem", margin: "10px 0" }}>{detail?.name}</h1>
-              <p style={{ color: "gray", fontSize: "1rem", marginBottom: "20px" }}>
+              <h1 style={{ fontSize: "2rem", margin: "10px 0" }}>
+                {detail?.name}
+              </h1>
+              <p
+                style={{
+                  color: "gray",
+                  fontSize: "1rem",
+                  marginBottom: "20px",
+                }}
+              >
                 {detail?.description}
               </p>
 
@@ -97,7 +90,9 @@ const DetailPlaylistFirst = () => {
                     }}
                   />
                   <span>{detail.owner.display_name}</span>
-                  <span style={{ color: "gray" }}>{detail.followers.total} saves</span>
+                  <span style={{ color: "gray" }}>
+                    {detail.followers.total} saves
+                  </span>
                 </div>
               )}
 
