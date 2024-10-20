@@ -55,9 +55,12 @@ const PopularArtist = () => {
       />
       <div style={{ display: "flex" }}>
         {artists.map((artist) => (
-          <Link href={`/artist/${artist.id}`} style={{textDecoration: "none", color: "white"}}>
+          <Link
+            href={`/artist/${artist.id}`}
+            style={{ textDecoration: "none", color: "white" }}
+            key={artist.id}
+          >
             <div
-              key={artist.id}
               className="artist-card"
               style={{
                 margin: "10px",
@@ -71,13 +74,29 @@ const PopularArtist = () => {
               <img
                 src={artist.images[0]?.url} // Use optional chaining to avoid errors
                 alt={artist.name}
-                style={{ width: "200px", height: "80%", borderRadius: "50%", alignItems: "center" }}
+                style={{
+                  width: "200px",
+                  height: "80%",
+                  borderRadius: "50%",
+                  alignItems: "center",
+                }}
               />
-              <p style={{ textAlign: "start", marginTop: "20px", textDecoration: "none" }}>
+              <p
+                style={{
+                  textAlign: "start",
+                  marginTop: "20px",
+                  textDecoration: "none",
+                }}
+              >
                 {artist.name}
               </p>
               <p
-                style={{ textAlign: "start", color: "gray", marginTop: "4px", textDecoration: "none" }}
+                style={{
+                  textAlign: "start",
+                  color: "gray",
+                  marginTop: "4px",
+                  textDecoration: "none",
+                }}
               >
                 artist
               </p>
