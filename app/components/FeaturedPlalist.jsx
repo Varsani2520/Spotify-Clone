@@ -42,17 +42,20 @@ const FeaturedPlalist = () => {
   };
 
   return (
-    <div className="all-song-page">
+    <div className="all-song-page" style={{ marginBlock: "50px" }}>
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          gap: "10px",
           alignItems: "center",
-          margin: "2px 20px 10px 20px"
+          justifyContent: "space-between",
         }}
       >
         {/* Left Side: Charts Title */}
-        <MyText text1={"Featured Playlists"} />
+        <MyText
+          text1={"Featured Playlists"}
+          style={{ fontSize: "20px", marginLeft: "20px" }}
+        />
 
         {/* Right Side: Show More Link */}
         <div style={{ fontSize: "16px" }}>
@@ -61,7 +64,8 @@ const FeaturedPlalist = () => {
             style={{
               color: "#1DB954",
               textDecoration: "none",
-              fontWeight: "bold"
+              fontWeight: "bold",
+              marginRight: "40px",
             }}
           >
             Show More
@@ -73,7 +77,7 @@ const FeaturedPlalist = () => {
         {loading ? (
           <MyCardSkeleton />
         ) : (
-          <div className="playlist-container">
+          <div className="playlist-container p-4">
             {playlist &&
               playlist.slice(0, 7).map((item, index) => (
                 <div className="playlist-items" key={index}>
@@ -86,29 +90,29 @@ const FeaturedPlalist = () => {
                           alt="playlist-image"
                         />
                       </Link>
-                      {/* <MyText
-                        text1={item.name}
-                        text2={truncateDescription(item.description, 5)}
-                      /> */}
+                      <MyText
+                        text1={truncateDescription(item.name, 2)}
+                        text2={truncateDescription(item.description, 3)}
+                      />
                       <IconButton
                         aria-label="play"
                         className="play-icon"
                         sx={{
                           position: "absolute",
-                          top: "37%",
+                          top: "50%",
                           left: "78%",
                           transform: "translate(-50%, -50%)",
                           backgroundColor: "green",
                           display: "none",
                           borderRadius: "50%",
-                          padding: "2px"
+                          padding: "2px",
                         }}
                         size="small"
                         onClick={() => playAudio(item.audioUrl)}
                       >
                         <PlayArrowRoundedIcon
                           style={{ color: "white" }}
-                          fontSize="small"
+                          fontSize="large"
                         />
                       </IconButton>
                     </div>

@@ -30,7 +30,7 @@ const DetailPlaylistFirst = () => {
   }, [playlist_id]);
 
   return (
-    <div className="playlist-detail" style={{ padding: "20px" }}>
+    <div className="playlist-detail">
       <Grid
         container
         spacing={2}
