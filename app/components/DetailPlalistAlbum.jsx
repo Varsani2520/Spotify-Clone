@@ -18,18 +18,69 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SkeletonType3 from "./Common/SkeletonType3";
 
 import Link from "next/link";
+import { addToTracks } from "../action/action";
+import { useDispatch } from "react-redux";
 
-const DetailPlalistAlbum = ({
-  handleMouseEnter,
-  handleMouseLeave,
-  songClick,
-  loading,
-  detail,
-  playingTrack,
-  hoveredTrack,
-  getTimeDifference,
-  formatDuration
-}) => {
+const DetailPlalistAlbum = ({ loading, detail }) => {
+  const [playingTrack, setPlayingTrack] = useState(null);
+  const audioRef = useRef(new Audio());
+  const [currentTrackInfo, setCurrentTrackInfo] = useState(null); // State to hold
+  const [hoveredTrack, setHoveredTrack] = useState(null);
+
+  const dispatch = useDispatch();
+
+  function songClick(track, id) {
+    dispatch(addToTracks(track));
+    const audio = audioRef.current;
+    if (playingTrack === id) {
+      audio.pause();
+      setPlayingTrack(null);
+    } else {
+      audio.src = track.track.preview_url;
+      audio.play();
+      setPlayingTrack(id);
+    }
+  }
+
+  useEffect(() => {
+    // Update currentTrackInfo whenever playingTrack changes
+    if (playingTrack !== null && detail) {
+      const currentTrack = detail.find(
+        (track) => track.track.id === playingTrack
+      );
+      setCurrentTrackInfo(currentTrack);
+    } else {
+      setCurrentTrackInfo(null);
+    }
+  }, [playingTrack, detail]);
+
+  // Function to format milliseconds to duration (MM:SS)
+  const formatDuration = (duration_ms) => {
+    const totalSeconds = Math.floor(duration_ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  // Function to get time difference in days
+  const getTimeDifference = (added_at) => {
+    const today = new Date();
+    const addedDate = new Date(added_at);
+    const difference = Math.abs(today - addedDate);
+    const daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
+    return `${daysDifference} days ago`;
+  };
+
+  // Function to handle mouse enter event
+  const handleMouseEnter = (trackId) => {
+    setHoveredTrack(trackId);
+  };
+
+  // Function to handle mouse leave event
+  const handleMouseLeave = () => {
+    setHoveredTrack(null);
+  };
+
   return (
     <div>
       <div className="playlist-album-table">

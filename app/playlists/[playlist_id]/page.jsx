@@ -41,12 +41,6 @@ const Page = () => {
 
   const [playlist, setPlaylist] = useState(null);
   const [playlistLoading, setPlaylistLoading] = useState(true);
-  const [hoveredTrack, setHoveredTrack] = useState(null);
-  const [playingTrack, setPlayingTrack] = useState(null);
-  const audioRef = useRef(new Audio());
-  const [currentTrackInfo, setCurrentTrackInfo] = useState(null); // State to hold currently playing track's information
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,73 +62,11 @@ const Page = () => {
     }
   }, [playlist_id]);
 
-  useEffect(() => {
-    // Update currentTrackInfo whenever playingTrack changes
-    if (playingTrack !== null && detail) {
-      const currentTrack = detail.find(
-        (track) => track.track.id === playingTrack
-      );
-      setCurrentTrackInfo(currentTrack);
-    } else {
-      setCurrentTrackInfo(null);
-    }
-  }, [playingTrack, detail]);
-
-  // Function to format milliseconds to duration (MM:SS)
-  const formatDuration = (duration_ms) => {
-    const totalSeconds = Math.floor(duration_ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-
-  // Function to get time difference in days
-  const getTimeDifference = (added_at) => {
-    const today = new Date();
-    const addedDate = new Date(added_at);
-    const difference = Math.abs(today - addedDate);
-    const daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
-    return `${daysDifference} days ago`;
-  };
-
-  // Function to handle mouse enter event
-  const handleMouseEnter = (trackId) => {
-    setHoveredTrack(trackId);
-  };
-
-  // Function to handle mouse leave event
-  const handleMouseLeave = () => {
-    setHoveredTrack(null);
-  };
-
-  function songClick(track, id) {
-    dispatch(addToTracks(track));
-    const audio = audioRef.current;
-    if (playingTrack === id) {
-      audio.pause();
-      setPlayingTrack(null);
-    } else {
-      audio.src = track.track.preview_url;
-      audio.play();
-      setPlayingTrack(id);
-    }
-  }
-
   return (
     <div className="page-container">
       <DetailPlaylistFirst detail={detail} loading={loading} />
       <CardPlaylistCenter />
-      <DetailPlalistAlbum
-        detail={playlist}
-        loading={playlistLoading}
-        handleMouseEnter={handleMouseEnter}
-        handleMouseLeave={handleMouseLeave}
-        songClick={songClick}
-        playingTrack={playingTrack}
-        hoveredTrack={hoveredTrack}
-        getTimeDifference={getTimeDifference}
-        formatDuration={formatDuration}
-      />
+      <DetailPlalistAlbum detail={playlist} loading={playlistLoading} />
       <Footer />
     </div>
   );
