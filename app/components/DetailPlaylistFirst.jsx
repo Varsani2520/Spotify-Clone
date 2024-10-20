@@ -66,9 +66,10 @@ const DetailPlaylistFirst = () => {
             <SkeletonType2 />
           ) : (
             <>
-              <p style={{ color: "inherit", fontWeight: "bold", fontSize: "16px" }}>
-                {detail?.type}
-              </p>
+             <p style={{ color: "inherit", fontWeight: "bold", fontSize: "16px" }}>
+  {detail?.type.charAt(0).toUpperCase() + detail?.type.slice(1).toLowerCase()}
+</p>
+
               <h1 style={{ fontSize: "2rem", margin: "10px 0" }}>{detail?.name}</h1>
               <p style={{ color: "gray", fontSize: "1rem", marginBottom: "20px" }}>
                 {detail?.description}
@@ -96,7 +97,7 @@ const DetailPlaylistFirst = () => {
                     }}
                   />
                   <span>{detail.owner.display_name}</span>
-                  <span style={{ color: "gray" }}>{detail.followers.total} likes</span>
+                  <span style={{ color: "gray" }}>{detail.followers.total} saves</span>
                 </div>
               )}
 
